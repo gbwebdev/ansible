@@ -34,16 +34,22 @@
   ansible.builtin.debug:
     msg: "User's public key is :\n{{ user_info.ssh_public_key }}"
 
+- name: Check if oh-my-zsh is already installed
+  stat:
+    path: "{{ user_info.home }}/.oh-my-zsh"
+  register: oh_my_zsh_dir
+  
 - name: Download oh-my-zsh installer
   get_url:
     url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
     dest: /tmp/zsh-installer.sh
     mode: "0755"
+  when: not oh_my_zsh_dir.stat.exists
   register: download
 
 - name: Run the oh-my-zsh installer
   shell: /tmp/zsh-installer.sh --unattended
-  when: download.changed
+  when: not oh_my_zsh_dir.stat.exists and download.changed
   become_user: "{{ username }}"
 
 - name: Remove the oh-my-zsh installer
