@@ -60,17 +60,20 @@
 - name: Install zsh-autosuggestions
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-autosuggestions.git
-    dest: "{{ user_info.home }}/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+    dest: "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
+  become_user: "{{ username }}"
 
 - name: Install zsh-syntax-highlighting
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
-    dest: "{{ user_info.home }}/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+    dest: "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+  become_user: "{{ username }}"
 
 - name: Setup zsh configuration
   ansible.builtin.template:
     src: .zshrc
-    dest: "{{ user_info.home }}/.zshrc"
+    dest: "~/.zshrc"
     owner: "{{ username }}"
     group: "{{ username }}"
     mode: '0640'
+  become_user: "{{ username }}"
