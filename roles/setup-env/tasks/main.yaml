@@ -19,7 +19,7 @@
   ansible.builtin.user:
     name: "{{ username }}"
     comment: "{{ user_detail }}"
-    home: "{{ username }}"
+    home: "/home/{{ username }}"
     group: "{{ username }}"
     groups: "{{ user_groups }}"
     password: "{{ user_password | password_hash('sha512', 'saltIDontCareAboutBecauseTheHashWillNotBeStored') }}"
