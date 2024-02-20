@@ -37,7 +37,7 @@
   stat:
     path: "~/.oh-my-zsh"
   register: oh_my_zsh_dir
-  become: "{{ username }}"
+  become_user: "{{ username }}"
   
 - name: Download oh-my-zsh installer
   get_url:
