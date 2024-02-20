@@ -10,6 +10,11 @@
     update_cache: yes
   when: zsh_installed.rc != 0
 
+- name: Create the group
+  ansible.builtin.group:
+    name: "{{ username }}"
+    state: present
+
 - name: Create the user
   ansible.builtin.user:
     name: "{{ username }}"
