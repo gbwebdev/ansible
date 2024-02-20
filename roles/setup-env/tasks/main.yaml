@@ -33,7 +33,7 @@
   get_url:
     url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
     dest: /tmp/zsh-installer.sh
-    mode: 777
+    mode: "0755"
   register: download
 
 - name: Run the oh-my-zsh installer
