@@ -16,7 +16,7 @@
     name: "{{ username }}"
     comment: "{{ user_detail }}"
     group: "{{ username }}"
-    groups: {{ groups }}
+    groups: "{{ groups }}"
     password: "{{ user_password | password_hash('sha512', 'saltIDontCareAboutBecauseTheHashWillNotBeStored') }}"
     generate_ssh_key: true
     ssh_key_type: ed25519
