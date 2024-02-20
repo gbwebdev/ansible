@@ -1,0 +1,43 @@
+- name: Check if zsh is present
+  command: command -v zsh >/dev/null 2>&1
+  register: zsh_installed
+  no_log: true
+  ignore_errors: yes
+
+- name: Install zsh
+  ansible.builtin.apt:
+    name: zsh
+    state: present
+    update_cache: yes
+  when: zsh_installed.rc != 0
+
+- name: Create the user
+  ansible.builtin.user:
+    name: {{ username }}
+    comment: {{ user_detail }}
+    group: {{ username }}
+    groups: {{ groups }}
+    password: {{ user_password | password_hash('sha512', 'saltIDontCareAboutBecauseTheHashWillNotBeStored') }}
+    generate_ssh_key: true
+    ssh_key_type: ed25519
+    ssh_key_passphrase: {{ ssh_key_passphrase }}
+    ssh_key_comment: {{ inventory_hostname }}
+    shell: /bin/zsh
+  register: user_info
+
+- name: Download oh-my-zsh installer
+  get_url:
+    url: https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh
+    dest: /tmp/zsh-installer.sh
+    mode: 777
+  register: download
+
+- name: Run the oh-my-zsh installer
+  shell: /tmp/zsh-installer.sh --unattended
+  when: download.changed
+  become_user: {{ username }}
+
+- name: Remove the oh-my-zsh installer
+  file:
+    path: /tmp/zsh-installer.sh
+    state: absent

@@ -1,0 +1,10 @@
+username: guillaume
+user_detail: Guillaume BITON <guillaume@gbweb.fr>
+groups:
+  - adm
+  - cdrom
+  - sudo
+  - dip
+  - plugdev
+  - lxd
+  - docker
