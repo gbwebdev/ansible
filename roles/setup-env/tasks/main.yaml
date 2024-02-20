@@ -1,7 +1,6 @@
 - name: Check if zsh is present
   command: command -v zsh >/dev/null 2>&1
   register: zsh_installed
-  no_log: true
   ignore_errors: yes
 
 - name: Install zsh
