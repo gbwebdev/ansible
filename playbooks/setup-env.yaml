@@ -15,4 +15,4 @@
       prompt: What is the passphrase for the ssh key ?
       private: true
   roles:
-    - setup-env
+    - ../roles/setup-env
