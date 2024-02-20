@@ -1,6 +1,6 @@
 username: guillaume
 user_detail: Guillaume BITON <guillaume@gbweb.fr>
-groups:
+user_groups:
   - adm
   - cdrom
   - sudo

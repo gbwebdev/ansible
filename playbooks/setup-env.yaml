@@ -6,9 +6,10 @@
   vars_prompt:
     - name: username
       prompt: What is your username ?
-      private: false
+      private: False
     - name: user_detail
       prompt: What is the user description ?
+      private: False
     - name: user_password
       prompt: What is your user password ?
       private: true
