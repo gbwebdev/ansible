@@ -25,10 +25,14 @@
     generate_ssh_key: true
     ssh_key_type: ed25519
     ssh_key_passphrase: "{{ ssh_key_passphrase }}"
-    ssh_key_comment: "{{ inventory_hostname }}"
+    ssh_key_comment: "{{ ansible_hostname }}"
     shell: /bin/zsh
   register: user_info
 
+
+- name: Print the home directory
+  ansible.builtin.debug:
+    msg: "User's home is :\n{{ user_info.home }}"
 
 - name: Print the public key
   ansible.builtin.debug:
