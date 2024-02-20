@@ -13,15 +13,15 @@
 
 - name: Create the user
   ansible.builtin.user:
-    name: {{ username }}
-    comment: {{ user_detail }}
-    group: {{ username }}
+    name: "{{ username }}"
+    comment: "{{ user_detail }}"
+    group: "{{ username }}"
     groups: {{ groups }}
-    password: {{ user_password | password_hash('sha512', 'saltIDontCareAboutBecauseTheHashWillNotBeStored') }}
+    password: "{{ user_password | password_hash('sha512', 'saltIDontCareAboutBecauseTheHashWillNotBeStored') }}"
     generate_ssh_key: true
     ssh_key_type: ed25519
-    ssh_key_passphrase: {{ ssh_key_passphrase }}
-    ssh_key_comment: {{ inventory_hostname }}
+    ssh_key_passphrase: "{{ ssh_key_passphrase }}"
+    ssh_key_comment: "{{ inventory_hostname }}"
     shell: /bin/zsh
   register: user_info
 
@@ -35,7 +35,7 @@
 - name: Run the oh-my-zsh installer
   shell: /tmp/zsh-installer.sh --unattended
   when: download.changed
-  become_user: {{ username }}
+  become_user: "{{ username }}"
 
 - name: Remove the oh-my-zsh installer
   file:
