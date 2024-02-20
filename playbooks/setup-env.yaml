@@ -11,12 +11,12 @@
       - lxd
       # - docker
   vars_prompt:
-    - name: username
-      prompt: What is your username ?
-      private: False
-    - name: user_detail
-      prompt: What is the user description ?
-      private: False
+    # - name: username
+    #   prompt: What is your username ?
+    #   private: False
+    # - name: user_detail
+    #   prompt: What is the user description ?
+    #   private: False
     - name: user_password
       prompt: What is your user password ?
       private: true

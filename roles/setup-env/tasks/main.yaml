@@ -19,7 +19,6 @@
   ansible.builtin.user:
     name: "{{ username }}"
     comment: "{{ user_detail }}"
-    home: "/home/{{ username }}"
     group: "{{ username }}"
     groups: "{{ user_groups }}"
     password: "{{ user_password | password_hash('sha512', 'saltIDontCareAboutBecauseTheHashWillNotBeStored') }}"
@@ -30,19 +29,15 @@
     shell: /bin/zsh
   register: user_info
 
-
-- name: Print the home directory
-  ansible.builtin.debug:
-    msg: "User's home is :\n{{ user_info.home }}"
-
 - name: Print the public key
   ansible.builtin.debug:
     msg: "User's public key is :\n{{ user_info.ssh_public_key }}"
 
 - name: Check if oh-my-zsh is already installed
   stat:
-    path: "{{ user_info.home }}/.oh-my-zsh"
+    path: "~/.oh-my-zsh"
   register: oh_my_zsh_dir
+  become: "{{ username }}"
   
 - name: Download oh-my-zsh installer
   get_url:
