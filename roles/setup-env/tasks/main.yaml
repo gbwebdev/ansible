@@ -77,3 +77,7 @@
     group: "{{ username }}"
     mode: '0640'
   become_user: "{{ username }}"
+
+# TODO : installer font Hack
+# TODO : installer keychain
+# TODO : voir https://github.com/gbwebdev/custom-linux-environment/blob/main/setup.sh
