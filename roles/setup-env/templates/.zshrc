@@ -64,9 +64,12 @@ ZSH_THEME="gnzh"
 plugins=(
   git
   zsh-autosuggestions
+  you-should-use
+  zsh-bat
   )
 
 source $ZSH/oh-my-zsh.sh
+source ~/.zplug/init.zsh
 
 # User configuration
 

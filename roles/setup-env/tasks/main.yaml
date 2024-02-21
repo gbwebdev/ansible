@@ -57,16 +57,34 @@
     path: /tmp/zsh-installer.sh
     state: absent
 
-- name: Install zsh-autosuggestions
+- name: Install zplug
+  ansible.builtin.git:
+    repo: https://github.com/zplug/zplug
+    dest: "~/.zplug"
+  become_user: "{{ username }}"
+
+- name: Install zsh-autosuggestions plugin
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-autosuggestions.git
     dest: "~/.oh-my-zsh/custom/plugins/zsh-autosuggestions"
   become_user: "{{ username }}"
 
-- name: Install zsh-syntax-highlighting
+- name: Install zsh-syntax-highlighting plugin
   ansible.builtin.git:
     repo: https://github.com/zsh-users/zsh-syntax-highlighting.git
     dest: "~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+  become_user: "{{ username }}"
+
+- name: Install zsh-you-should-use plugin
+  ansible.builtin.git:
+    repo: https://github.com/MichaelAquilina/zsh-you-should-use.git
+    dest: "~/.oh-my-zsh/custom/plugins/you-should-use"
+  become_user: "{{ username }}"
+
+- name: Install zsh-bat plugin
+  ansible.builtin.git:
+    repo: https://github.com/fdellwing/zsh-bat.git
+    dest: "~/.oh-my-zsh/custom/plugins/zsh-bat"
   become_user: "{{ username }}"
 
 - name: Setup zsh configuration
