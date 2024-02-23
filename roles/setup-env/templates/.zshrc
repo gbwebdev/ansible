@@ -62,11 +62,30 @@ ZSH_THEME="gnzh"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
+  common-aliases
+  {%- if docker -%}docker
+  docker-compose{% endif %}
+  extract
   git
+  {%- if kubernetes or helm -%}helm{% endif %}
+  httpie  # Better curl !
+  {%- if kubernetes -%}kubectl{% endif %}
+  per-directory-history
+  pj # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/pj
+  python
+  ripgrep
+  safe-paste
+  ssh-agent
+  ssh
   zsh-autosuggestions
   you-should-use
   zsh-bat
+  {%- if argocd -%}argocd{% endif %}
   )
+
+zstyle :omz:plugins:ssh-agent identities id_ed25519
+zstyle :omz:plugins:ssh-agent lazy yes
+zstyle :omz:plugins:ssh-agent lifetime 2h
 
 source $ZSH/oh-my-zsh.sh
 source ~/.zplug/init.zsh

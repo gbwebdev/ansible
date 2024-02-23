@@ -2,26 +2,8 @@
     - localhost
   become: true
   vars:
-    user_groups:
-      - adm
-      - cdrom
-      - sudo
-      - dip
-      - plugdev
-      - lxd
-      # - docker
-  vars_prompt:
-    # - name: username
-    #   prompt: What is your username ?
-    #   private: False
-    # - name: user_detail
-    #   prompt: What is the user description ?
-    #   private: False
-    - name: user_password
-      prompt: What is your user password ?
-      private: true
-    - name: ssh_key_passphrase
-      prompt: What is the passphrase for the ssh key ?
-      private: true
+    argocd: no
+    kubernetes: no
+    helm: no
   roles:
     - ../roles/setup-env

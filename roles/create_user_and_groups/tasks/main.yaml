@@ -1,0 +1,22 @@
+- name: Create the group
+  ansible.builtin.group:
+    name: "{{ username }}"
+    state: present
+
+- name: Create the user
+  ansible.builtin.user:
+    name: "{{ username }}"
+    comment: "{{ user_detail }}"
+    group: "{{ username }}"
+    groups: "{{ user_groups }}"
+    password: "{{ user_password | password_hash('sha512', 'saltIDontCareAboutBecauseTheHashWillNotBeStored') }}"
+    generate_ssh_key: true
+    ssh_key_type: ed25519
+    ssh_key_passphrase: "{{ ssh_key_passphrase }}"
+    ssh_key_comment: "{{ ansible_hostname }}"
+    shell: /bin/zsh
+  register: user_info
+
+- name: Print the public key
+  ansible.builtin.debug:
+    msg: "User's public key is :\n{{ user_info.ssh_public_key }}"

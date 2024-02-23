@@ -3,37 +3,56 @@
   register: zsh_installed
   ignore_errors: yes
 
-- name: Install zsh
+- name: Install zsh on debian-like
   ansible.builtin.apt:
     name: zsh
     state: present
     update_cache: yes
-  when: zsh_installed.rc != 0
+  when: zsh_installed.rc != 0 and ansible_os_family == "Debian"
 
-- name: Create the group
-  ansible.builtin.group:
-    name: "{{ username }}"
+- name: Install zsh on redhat-like
+  ansible.builtin.yum:
+    name: zsh
     state: present
+    update_cache: yes
+  when: zsh_installed.rc != 0 and ansible_os_family == "RedHat"
 
-- name: Create the user
+- name: Install httpie on debian-like
+  ansible.builtin.apt:
+    name: httpie
+    state: present
+    update_cache: no
+  when:  ansible_os_family == "Debian"
+
+- name: Install httpie on redhat-like
+  ansible.builtin.yum:
+    name: httpie
+    state: present
+    update_cache: no
+  when:  ansible_os_family == "RedHat"
+
+- name: Install ripgrep on debian-like
+  ansible.builtin.apt:
+    name: ripgrep
+    state: present
+    update_cache: no
+  when:  ansible_os_family == "Debian"
+
+- name: Install ripgrep on redhat-like
+  ansible.builtin.yum:
+    name: ripgrep
+    state: present
+    update_cache: no
+  when:  ansible_os_family == "RedHat"
+
+- name: Change user' settings
   ansible.builtin.user:
     name: "{{ username }}"
-    comment: "{{ user_detail }}"
-    group: "{{ username }}"
-    groups: "{{ user_groups }}"
-    password: "{{ user_password | password_hash('sha512', 'saltIDontCareAboutBecauseTheHashWillNotBeStored') }}"
-    generate_ssh_key: true
-    ssh_key_type: ed25519
-    ssh_key_passphrase: "{{ ssh_key_passphrase }}"
-    ssh_key_comment: "{{ ansible_hostname }}"
+    append: yes
+    groups: "{%- if docker -%}docker{%- endif -%}"
     shell: /bin/zsh
-  register: user_info
 
-- name: Print the public key
-  ansible.builtin.debug:
-    msg: "User's public key is :\n{{ user_info.ssh_public_key }}"
-
-- name: Check if oh-my-zsh is already installed
+- name: Check if oh-my-zsh is already installed for the user
   stat:
     path: "~/.oh-my-zsh"
   register: oh_my_zsh_dir
@@ -57,11 +76,29 @@
     path: /tmp/zsh-installer.sh
     state: absent
 
-- name: Install zplug
-  ansible.builtin.git:
-    repo: https://github.com/zplug/zplug
-    dest: "~/.zplug"
+- name: Check if starship is already installed
+  stat:
+    path: "/usr/local/bin/starship"
+  register: starship_bin
   become_user: "{{ username }}"
+
+- name: Download starship installer
+  get_url:
+    url: https://starship.rs/install.sh
+    dest: /tmp/starship-installer.sh
+    mode: "0755"
+  when: not starship_bin.stat.exists
+  register: download
+
+- name: Run the starship installer
+  shell: /tmp/starship-installer.sh -y
+  when: not starship_bin.stat.exists and download.changed
+  become: true
+
+- name: Remove the starship installer
+  file:
+    path: /tmp/starship-installer.sh
+    state: absent
 
 - name: Install zsh-autosuggestions plugin
   ansible.builtin.git:
@@ -97,5 +134,3 @@
   become_user: "{{ username }}"
 
 # TODO : installer font Hack
-# TODO : installer keychain
-# TODO : voir https://github.com/gbwebdev/custom-linux-environment/blob/main/setup.sh
