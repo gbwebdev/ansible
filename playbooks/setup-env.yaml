@@ -6,5 +6,6 @@
     kubernetes: no
     helm: no
     docker: no
+    ripgrep: yes
   roles:
     - ../roles/setup-env

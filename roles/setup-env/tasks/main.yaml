@@ -21,29 +21,29 @@
   ansible.builtin.apt:
     name: httpie
     state: present
-    update_cache: no
+    update_cache: yes
   when:  ansible_os_family == "Debian" or force_ubuntu | bool
 
 - name: Install httpie on redhat-like
   ansible.builtin.yum:
     name: httpie
     state: present
-    update_cache: no
+    update_cache: yes
   when:  ansible_os_family == "RedHat"
 
 - name: Install ripgrep on debian-like
   ansible.builtin.apt:
     name: ripgrep
     state: present
-    update_cache: no
-  when:  ansible_os_family == "Debian" or force_ubuntu | bool
+    update_cache: yes
+  when:  (ripgrep | bool) and  (ansible_os_family == "Debian" or force_ubuntu | bool)
 
 - name: Install ripgrep on redhat-like
   ansible.builtin.yum:
     name: ripgrep
     state: present
-    update_cache: no
-  when:  ansible_os_family == "RedHat"
+    update_cache: yes
+  when: (ripgrep | bool) and ansible_os_family == "RedHat"
 
 - name: Change user' settings
   ansible.builtin.user:

@@ -73,7 +73,7 @@ plugins=(
   per-directory-history
   pj # https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/pj
   python
-  ripgrep
+  {%- if ripgrep -%}ripgrep{% endif %}
   safe-paste
   ssh-agent
   ssh
