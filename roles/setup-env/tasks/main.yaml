@@ -8,7 +8,7 @@
     name: zsh
     state: present
     update_cache: yes
-  when: zsh_installed.rc != 0 and (ansible_os_family == "Debian" or force_ubuntu)
+  when: zsh_installed.rc != 0 and (ansible_os_family == "Debian" or force_ubuntu | bool)
 
 - name: Install zsh on redhat-like
   ansible.builtin.yum:
@@ -22,7 +22,7 @@
     name: httpie
     state: present
     update_cache: no
-  when:  ansible_os_family == "Debian" or force_ubuntu
+  when:  ansible_os_family == "Debian" or force_ubuntu | bool
 
 - name: Install httpie on redhat-like
   ansible.builtin.yum:
@@ -36,7 +36,7 @@
     name: ripgrep
     state: present
     update_cache: no
-  when:  ansible_os_family == "Debian" or force_ubuntu
+  when:  ansible_os_family == "Debian" or force_ubuntu | bool
 
 - name: Install ripgrep on redhat-like
   ansible.builtin.yum:

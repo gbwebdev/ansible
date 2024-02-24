@@ -1,4 +1,5 @@
 user_detail: Guillaume BITON <guillaume@gbweb.fr>
+force_ubuntu: no
 user_groups:
   - adm
   - cdrom
