@@ -4,7 +4,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
 
-ZSH_THEME="gnzh"
+ZSH_THEME="starship"
 
 
 # Uncomment the following line to use case-sensitive completion.
@@ -77,6 +77,7 @@ plugins=(
   safe-paste
   ssh-agent
   ssh
+  starship
   zsh-autosuggestions
   you-should-use
   zsh-bat
@@ -88,7 +89,7 @@ zstyle :omz:plugins:ssh-agent lazy yes
 zstyle :omz:plugins:ssh-agent lifetime 2h
 
 source $ZSH/oh-my-zsh.sh
-source ~/.zplug/init.zsh
+
 
 # User configuration
 
